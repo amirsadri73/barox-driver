@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -15,24 +15,27 @@ const useStyles = makeStyles(theme => ({
     verticalAlign: "middle"
   },
   paper: {
-    width: "100%",
-    height: "40vh",
     padding: "5% 6%"
   },
   grid: {
-    margin: 0,
     width: "100vw",
-    height: "100vh"
+    height: "100vh",
+    padding: "5%"
   },
-  input: {},
+  title: { marginBottom: "3%" },
+  input: {
+    marginTop: "3%"
+  },
   button: {
-    marginTop: 20,
-    paddingRight: 100,
-    paddingLeft: 100
+    marginTop: "8%",
+    paddingRight: "5%",
+    paddingLeft: "5%"
   }
 }));
 
 const LoginScreen = props => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -42,26 +45,30 @@ const LoginScreen = props => {
         justify="center"
         alignItems="center"
       >
-        <Grid item xs={9} sm={6}>
+        <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>
-            <Typography variant="h5" component="h3">
+            <Typography variant="h5" component="h3" className={classes.title}>
               ورود
             </Typography>
             <TextField
-              id="standard-name"
               className={classes.input}
-              label="ایمیل"
+              label={"ایمیل"}
+              variant={"filled"}
+              onChange={e => setEmail(e.target.value)}
               fullWidth
             />
             <TextField
-              id="standard-uncontrolled"
               className={classes.input}
-              label="رمز عبور"
+              label={"رمز عبور"}
+              type={"password"}
+              variant={"filled"}
+              onChange={e => setPassword(e.target.value)}
               fullWidth
             />
             <Button
-              variant="contained"
-              color="primary"
+              variant={"contained"}
+              color={"primary"}
+              onClick={() => console.log(email, password)}
               className={classes.button}
             >
               ورود
