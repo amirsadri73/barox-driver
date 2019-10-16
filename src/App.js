@@ -15,7 +15,8 @@ const theme = createMuiTheme({
   direction: "rtl",
   palette: {
     primary: { main: "#624E9C" },
-    secondary: { main: "#FF4949" }
+    secondary: { main: "#FF4949" },
+    common: { white: "#FFFFFF" }
   },
   typography: {
     fontFamily: "IRANSans"
