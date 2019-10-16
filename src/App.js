@@ -35,7 +35,7 @@ const App = () => {
               <HomeScreen />
             </Route>
             <Route path="/login">
-              <LoginScreen />
+              <LoginScreen title="ورود به سیستم" />
             </Route>
           </Switch>
         </BrowserRouter>

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import { Button } from "@material-ui/core";
+import { Paper, Grid, TextField, Button, Typography } from "@material-ui/core";
+import Axios from "axios";
+import { withRouter } from "react-router-dom";
+
+import { url } from "../../constans";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     verticalAlign: "middle"
   },
   paper: {
-    padding: "5% 6%"
+    padding: "6% 5%"
   },
   grid: {
     width: "100vw",
@@ -34,8 +34,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LoginScreen = props => {
-  const [email, setEmail] = useState("");
+  useEffect(() => {
+    document.title = props.title;
+  });
+  const { match, location, history } = props;
+  const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
+  const onSubmit = useCallback(() => {
+    Axios.post(url + "UserProfile/Login", { mobile, password })
+      .then(res => {
+        if (res.status === 200) {
+          localStorage.setItem("userToken", res.data.Token);
+          history.push("/");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [mobile, password]);
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -48,13 +64,14 @@ const LoginScreen = props => {
         <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>
             <Typography variant="h5" component="h3" className={classes.title}>
-              ورود
+              ورود به سیستم
             </Typography>
             <TextField
               className={classes.input}
-              label={"ایمیل"}
+              label={"موبایل"}
+              type={"mobile"}
               variant={"filled"}
-              onChange={e => setEmail(e.target.value)}
+              onChange={e => setMobile(e.target.value)}
               fullWidth
             />
             <TextField
@@ -68,7 +85,7 @@ const LoginScreen = props => {
             <Button
               variant={"contained"}
               color={"primary"}
-              onClick={() => console.log(email, password)}
+              onClick={onSubmit}
               className={classes.button}
             >
               ورود
@@ -80,4 +97,4 @@ const LoginScreen = props => {
   );
 };
 
-export default LoginScreen;
+export default withRouter(LoginScreen);
