@@ -33,7 +33,7 @@ const App = () => {
         <BrowserRouter>
           <Switch>
             <Route exact path="/">
-              <HomeScreen />
+              <HomeScreen title="باروکس" />
             </Route>
             <Route path="/login">
               <LoginScreen title="ورود به سیستم" />
