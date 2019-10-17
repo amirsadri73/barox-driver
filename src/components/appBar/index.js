@@ -60,7 +60,7 @@ const CostumeAppBar = props => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-    const open = props;
+    //const open = props;
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -77,6 +77,7 @@ const CostumeAppBar = props => {
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  
     const menuId = "primary-search-account-menu";
     const renderMenu = (
       <Menu
@@ -174,7 +175,6 @@ const CostumeAppBar = props => {
         </AppBar>
       {renderMenu}
       {renderMobileMenu}
-      
     </div>
     );
 };

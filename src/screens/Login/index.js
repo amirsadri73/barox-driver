@@ -6,7 +6,8 @@ import {
   TextField,
   Button,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Link
 } from "@material-ui/core";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
@@ -39,6 +40,14 @@ const useStyles = makeStyles(theme => ({
   },
   progress: {
     color: theme.palette.common.white,
+  },
+  link: {
+    color: theme.palette.secondary.main,
+  },
+  linkText: {
+    textDecoration: "underline",
+  },
+  linDiv: {
   }
 }));
 
@@ -50,6 +59,14 @@ const LoginScreen = props => {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loginType, setLoginType] = useState(0); //0 for mobile and password , 1 for mobile and code
+
+  const handleTypeChange = () => {
+    if (loginType === 0)
+      setLoginType(1);
+    else
+      setLoginType(0);
+  };
 
   const onSubmit = useCallback(() => {
     setLoading(true);
@@ -67,54 +84,70 @@ const LoginScreen = props => {
       });
   }, [mobile, password]);
   const classes = useStyles();
-  if (localStorage.getItem("userToken") === null)
+  //if (localStorage.getItem("userToken") === null)
     return (
       <div className={classes.container}>
         <Grid
           container
           className={classes.grid}
-          justify="center"
-          alignItems="center"
-        >
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>
-              <Typography variant="h5" component="h3" className={classes.title}>
-                ورود به سیستم
-              </Typography>
-              <TextField
-                className={classes.input}
-                label={"موبایل"}
-                type={"mobile"}
-                variant={"filled"}
-                onChange={e => setMobile(e.target.value)}
-                fullWidth
-              />
-              <TextField
-                className={classes.input}
-                label={"رمز عبور"}
-                type={"password"}
-                variant={"filled"}
-                onChange={e => setPassword(e.target.value)}
-                fullWidth
-              />
-              <Button
-                variant={"contained"}
-                color={"primary"}
-                onClick={onSubmit}
-                className={classes.button}
-              >
-                {loading ? (
-                  <CircularProgress className={classes.progress} size={24} />
-                ) : (
-                  <Typography>ورود</Typography>
-                )}
-              </Button>
-            </Paper>
+           justify="center"
+           alignItems="center"
+         >
+           <Grid item xs={12} sm={6}>
+             <Paper className={classes.paper}>
+               <Typography variant="h5" component="h3" className={classes.title}>
+                 ورود به سیستم
+               </Typography>
+               <TextField
+                 className={classes.input}
+                 label={"موبایل"}
+                 type={"mobile"}
+                 variant={"filled"}
+                 onChange={e => setMobile(e.target.value)}
+                 fullWidth
+               />
+                {
+                  loginType === 0 ? (
+                    <TextField
+                    className={classes.input}
+                    label={"رمز عبور"}
+                    type={"password"}
+                    variant={"filled"}
+                    onChange={e => setPassword(e.target.value)}
+                    fullWidth
+                 />
+                ) : (null)
+                }
+               <Button
+                 variant={"contained"}
+                 color={"primary"}
+                 onClick={onSubmit}
+                 className={classes.button}
+               >
+                 {loading ? (
+                   <CircularProgress className={classes.progress} size={24} />
+                 ) : (
+                    <Typography>ورود</Typography>
+                 )}
+                </Button>
+                <div style={{
+                    display: "flex", 
+                    justifyContent: "center", 
+                    alignItems: "center",}}>
+                  <Link 
+                  component="button" 
+                  //color="secondary"
+                  onClick={handleTypeChange} 
+                  className={classes.link}>
+                    {loginType === 0 ? <Typography className={classes.linkText}>ورود با کد</Typography> : <Typography className={classes.linkText}>ورود با رمز عبور</Typography>}
+                  </Link>
+                </div>
+            </Paper>           
           </Grid>
         </Grid>
       </div>
     );
-  else return <Redirect to="/" push />;
+  //else return <Redirect to="/" push />;
 };
 
 export default withRouter(LoginScreen);
