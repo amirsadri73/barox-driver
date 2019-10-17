@@ -62,7 +62,7 @@ const LoginScreen = props => {
       });
   }, [mobile, password]);
   const classes = useStyles();
-  if (localStorage.getItem("userToken") === null)
+  //if (localStorage.getItem("userToken") === null)
     return (
       <div className={classes.container}>
         <Grid
@@ -105,7 +105,7 @@ const LoginScreen = props => {
         </Grid>
       </div>
     );
-    else return <Redirect to="/" push />
+    //else return <Redirect to="/" push />
 };
 
 export default withRouter(LoginScreen);

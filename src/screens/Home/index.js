@@ -1,13 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, Button, Typography, Grid, Menu, MenuItem, Badge } from '@material-ui/core';
-
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import { Toolbar, Button, Typography, Grid, Menu, MenuItem, Badge } from '@material-ui/core';
+import CostumeAppBar from '../../components/appBar';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -46,38 +41,16 @@ const HomeScreen = props => {
   const userToken = localStorage.getItem("userToken");
   console.log(userToken);
   const classes = useStyles();
-  if (userToken === null) return <Redirect to="/login" push />;
-  else return (
+  //if (userToken === null) return <Redirect to="/login" push />;
+  //else return (
+    return (
   <div className={classes.container}>
     <Grid
         container
         className={classes.grid}
       >
         <Grid item xs={1} sm={1}>
-          <AppBar position="static" className={classes.appBar}>
-            <Toolbar>
-              <IconButton edge="start" className={classes.menuButton} color="inherit" >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" className={classes.title}>
-                News
-              </Typography>
-              <div className={classes.appBarIcons}>
-                <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-                </IconButton>
-                <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-                </IconButton>
-              </div>
-              <Button variant={"outlined"} className={classes.button}>Login</Button>
-            </Toolbar>
-          </AppBar>
-
+          <CostumeAppBar />
         </Grid>
       </Grid>
   </div>
