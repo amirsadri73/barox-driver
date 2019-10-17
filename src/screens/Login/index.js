@@ -1,6 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, Grid, TextField, Button, Typography, CircularProgress } from "@material-ui/core";
+import {
+  Paper,
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  CircularProgress
+} from "@material-ui/core";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router-dom";
@@ -29,11 +36,9 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginTop: "8%",
-    paddingRight: "5%",
-    paddingLeft: "5%"
   },
   progress: {
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
   }
 }));
 
@@ -62,7 +67,7 @@ const LoginScreen = props => {
       });
   }, [mobile, password]);
   const classes = useStyles();
-  //if (localStorage.getItem("userToken") === null)
+  if (localStorage.getItem("userToken") === null)
     return (
       <div className={classes.container}>
         <Grid
@@ -98,14 +103,18 @@ const LoginScreen = props => {
                 onClick={onSubmit}
                 className={classes.button}
               >
-                {loading ? <CircularProgress className={classes.progress} /> : <Typography>Login</Typography>}
+                {loading ? (
+                  <CircularProgress className={classes.progress} size={24} />
+                ) : (
+                  <Typography>ورود</Typography>
+                )}
               </Button>
             </Paper>
           </Grid>
         </Grid>
       </div>
     );
-    //else return <Redirect to="/" push />
+  else return <Redirect to="/" push />;
 };
 
 export default withRouter(LoginScreen);
