@@ -24,8 +24,8 @@ import { url } from "../../constans";
 const useStyles = makeStyles(theme => ({
     container: {
       backgroundColor: theme.palette.primary.main,
-      height: "100vh",
-      width: "100vw",
+      height: "100%",
+      width: "100%",
       display: "table-cell",
       verticalAlign: "middle"
     },
@@ -37,11 +37,16 @@ const useStyles = makeStyles(theme => ({
     grid: {
       width: "100vw",
       height: "100vh",
-      padding: "5%"
+      padding: "2%"
     },
     title: { marginBottom: "3%" },
     input: {
-      marginTop: "3%"
+      marginTop: "2%",
+      width: "98%"
+    },
+    input1: {
+      marginTop: "2%",
+      width: "99%"
     },
     button: {
       width: "30%"
@@ -67,11 +72,20 @@ const RegisterScreen = props => {
       });
     
     //const { match, location, history } = props;
+    const [name, setName] = useState("");
+    const [family, setFamily] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
     const [mobile, setMobile] = useState("");
     const [loading, setLoading] = useState(false);
-    const [userType, setUserType] = useState(0);
+    const [userType, setUserType] = useState("3");
 
     const onSubmit = () => {};
+
+    const handle = (e) => {
+      setUserType(e.target.value);
+    }
 
     const classes = useStyles();
     return (
@@ -87,19 +101,72 @@ const RegisterScreen = props => {
                 <Typography variant="h5" component="h3" className={classes.title}>
                  ثبت نام
                 </Typography>
+                <div style={{display:"flex",flexWrap:"wrap", flexDirection:"row", justifyContent: "space-around"}}>
+
+                <Grid item xs={12} sm={6}>
                 <TextField
                  className={classes.input}
+                 label={"نام"}
+                 variant={"filled"}
+                 onChange={e => setName(e.target.value)}
+                 fullWidth
+                />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <TextField
+                 className={classes.input}
+                 label={"نام خانوادگی"}
+                 variant={"filled"}
+                 onChange={e => setFamily(e.target.value)}
+                 fullWidth
+                />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                <TextField
+                 className={classes.input1}
                  label={"موبایل"}
                  type={"mobile"}
                  variant={"filled"}
                  onChange={e => setMobile(e.target.value)}
                  fullWidth
                 />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                <TextField
+                 className={classes.input1}
+                 label={"ایمیل"}
+                 type={"email"}
+                 variant={"filled"}
+                 onChange={e => setEmail(e.target.value)}
+                 fullWidth
+                />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <TextField
+                 className={classes.input}
+                 label={"رمز عبور"}
+                 type={"password"}
+                 variant={"filled"}
+                 onChange={e => setPassword(e.target.value)}
+                 fullWidth
+                />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <TextField
+                 className={classes.input}
+                 label={"تایید رمز عبور"}
+                 type={"password"}
+                 variant={"filled"}
+                 onChange={e => setPasswordConfirm(e.target.value)}
+                 fullWidth
+                />
+                </Grid>
+                </div>
                 <FormControl component="fieldset" className={classes.formControl}>
                   <FormLabel component="legend" className={classes.radioLabel}>نوع کاربری :</FormLabel>
-                    <RadioGroup name="userType" value={userType} className={classes.radios} onChange={e => setUserType(e.target.value)}>
-                      <FormControlLabel value={3} control={<Radio />} label="صاحب بار" />
-                      <FormControlLabel value={4} control={<Radio />} label="باربری" />
+                    <RadioGroup name="userType" value={userType} className={classes.radios} onChange={handle}>
+                      <FormControlLabel value={"3"} control={<Radio />} label="صاحب بار" />
+                      <FormControlLabel value={"4"} control={<Radio />} label="باربری" />
                     </RadioGroup>
                 </FormControl>
                 <Button
