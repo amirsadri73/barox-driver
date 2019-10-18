@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
   container: {
     backgroundColor: theme.palette.primary.main,
     display: "flex",
-    verticalAlign: "middle"
+    alignItems: "center",
+    justifyContent: "center"
   },
   paper: {
     padding: "6% 5%",
@@ -37,9 +38,8 @@ const useStyles = makeStyles(theme => ({
     height: "100vh",
     padding: "2%"
   },
-  title: { marginBottom: "3%" },
-  button: {
-  },
+  title: { marginBottom: "20px" },
+  button: {},
   progress: {
     color: theme.palette.common.white
   },
@@ -179,7 +179,9 @@ const RegisterScreen = props => {
             </Grid>
             <FormControl component="fieldset" className={classes.formControl}>
               <FormLabel component="legend" className={classes.radioLabel}>
-                نوع کاربری :
+                <Typography variant="h6" component="h6">
+                  نوع کاربری
+                </Typography>
               </FormLabel>
               <RadioGroup
                 name="userProfileType"
