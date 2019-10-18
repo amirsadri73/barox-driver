@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -19,6 +19,7 @@ import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 
 import { url } from "../../constans";
+import { validationCondition } from "jest-validate/build/condition";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -58,21 +59,48 @@ const RegisterScreen = props => {
     document.title = props.title;
   });
 
-  //const { match, location, history } = props;
-  const [name, setName] = useState("");
-  const [family, setFamily] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [userType, setUserType] = useState("3");
+  const { match, location, history } = props;
+  const [Name, setName] = useState({value: "", error: null});
+  const [Family, setFamily] = useState({value: "", error: null});
+  const [Email, setEmail] = useState({value: "", error: null});
+  const [Password, setPassword] = useState({value: "", error: null});
+  const [ConfirmPassword, setConfirmPassword] = useState({value: "", error: null});
+  const [Mobile, setMobile] = useState({value: "", error: null});
+  const [Loading, setLoading] = useState(false);
+  const [UserProfileType, setUserProfileType] = useState("3");
+  const mobileRegex = new RegExp('^[0][9][0-9]{9,9}');
+  const emailRegex = new RegExp('^.+[@].+');
 
-  const onSubmit = () => {
-  };
+  const onSubmit = useCallback(() => {
+    setLoading(true);
+    validation();
+    Axios.post(url + "UserProfile/save", { Name: Name.value, Family: Family.value, Email: Email.value, Mobile: Mobile.value, Password: Password.value, ConfirmPassword: ConfirmPassword.value, UserProfileType })
+      .then(res => {
+        if (res.status === 200) {
+          console.log(res);
+          setLoading(false);
+          //history.push("/Login");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, [Name, Family, Email, Mobile, Password, ConfirmPassword, UserProfileType]);
 
-  const handle = e => {
-    setUserType(e.target.value);
+  const validation = () => {
+    if (Name.value === "") {setName(prevName => ({value: prevName.value, error: "لطفا نام خود را وارد کنید"}))};
+    if (Family.value === "") {setFamily(prevFamily => ({value: prevFamily.value, error: "لطفا نام خانوادگی خود را وارد کنید"}))};
+    if (Mobile.value === "") {setMobile(prevMobile => ({value: prevMobile.value, error: "لطفا شماره تلفن خود را وارد کنید"}))};
+    if (!mobileRegex.test(Mobile.value)) {setMobile(prevMobile => ({value: prevMobile.value, error: "شماره موبایل وارد شده قابل قبول نیست"}))};
+    if (Email.value === "") {setEmail(prevEmail => ({value: prevEmail.value, error: "لطفا ایمیل خود را وارد کنید"}))};
+    if (!emailRegex.test(Email.value)) {setEmail(prevEmail => ({value: prevEmail.value, error: "ایمیل وارد شده قابل قبول نیست"}))};
+    if (Password.value === "") {setPassword(prevPassword => ({value: prevPassword.value, error: "لطفا رمز عبور خود را وارد کنید"}))};
+    if (ConfirmPassword.value === "") {setConfirmPassword(prevConfirmPassword => ({value: prevConfirmPassword.value, error: "لطفا رمز عبور خود را تایید کنید"}))};
+    if (Password.value !== ConfirmPassword.value){
+      setPassword(prevPassword => ({value: prevPassword.value, error: "رمز و تایید رمز شما با هم برابر نیستند"}));
+      setConfirmPassword(prevConfirmPassword => ({value: prevConfirmPassword.value, error:"رمز و تایید رمز شما با هم برابر نیستند"}));
+    };
   };
 
   const classes = useStyles();
@@ -94,7 +122,8 @@ const RegisterScreen = props => {
                 <TextField
                   label={"نام"}
                   variant={"filled"}
-                  onChange={e => setName(e.target.value)}
+                  onChange={e => setName(prevName => ({value: e.target.value, error: prevName.error }))}
+                  helperText={Name.error}
                   fullWidth
                 />
               </Grid>
@@ -102,7 +131,8 @@ const RegisterScreen = props => {
                 <TextField
                   label={"نام خانوادگی"}
                   variant={"filled"}
-                  onChange={e => setFamily(e.target.value)}
+                  onChange={e => setFamily(prevFamily => ({value: e.target.value, error: prevFamily.error}))}
+                  helperText={Family.error}
                   fullWidth
                 />
               </Grid>
@@ -111,7 +141,8 @@ const RegisterScreen = props => {
                   label={"موبایل"}
                   type={"mobile"}
                   variant={"filled"}
-                  onChange={e => setMobile(e.target.value)}
+                  onChange={e => setMobile(prevMobile => ({value: e.target.value, error: prevMobile.error}))}
+                  helperText={Mobile.error}
                   fullWidth
                 />
               </Grid>
@@ -120,7 +151,8 @@ const RegisterScreen = props => {
                   label={"ایمیل"}
                   type={"email"}
                   variant={"filled"}
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={e => setEmail(prevEmail => ({value: e.target.value, error: prevEmail.error}))}
+                  helperText={Email.error}
                   fullWidth
                 />
               </Grid>
@@ -129,7 +161,8 @@ const RegisterScreen = props => {
                   label={"رمز عبور"}
                   type={"password"}
                   variant={"filled"}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={e => setPassword(prevPassword => ({value: e.target.value, error: prevPassword.error}))}
+                  helperText={Password.error}
                   fullWidth
                 />
               </Grid>
@@ -138,7 +171,8 @@ const RegisterScreen = props => {
                   label={"تایید رمز عبور"}
                   type={"password"}
                   variant={"filled"}
-                  onChange={e => setPasswordConfirm(e.target.value)}
+                  onChange={e => setConfirmPassword(prevConfirmPassword => ({value: e.target.value, error: prevConfirmPassword.error}))}
+                  helperText={ConfirmPassword.error}
                   fullWidth
                 />
               </Grid>
@@ -148,10 +182,10 @@ const RegisterScreen = props => {
                 نوع کاربری :
               </FormLabel>
               <RadioGroup
-                name="userType"
-                value={userType}
+                name="userProfileType"
+                value={UserProfileType}
                 className={classes.radios}
-                onChange={handle}
+                onChange={ e => setUserProfileType(e.target.value) }
               >
                 <FormControlLabel
                   value={"3"}
@@ -171,7 +205,7 @@ const RegisterScreen = props => {
               onClick={onSubmit}
               className={classes.button}
             >
-              {loading ? (
+              {Loading ? (
                 <CircularProgress className={classes.progress} size={24} />
               ) : (
                 <Typography>دریافت کد تایید</Typography>

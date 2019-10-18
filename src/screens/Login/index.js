@@ -24,7 +24,9 @@ const useStyles = makeStyles(theme => ({
     verticalAlign: "middle"
   },
   paper: {
-    padding: "6% 5%"
+    padding: "6% 5%",
+    display: "flex",
+    flexDirection: "column"
   },
   grid: {
     width: "100vw",
@@ -36,13 +38,15 @@ const useStyles = makeStyles(theme => ({
     marginTop: "3%"
   },
   button: {
-    marginTop: "8%"
+    marginTop: "8%",
+    //width: "100%"
   },
   progress: {
     color: theme.palette.common.white
   },
   link: {
-    color: theme.palette.secondary.main
+    color: theme.palette.secondary.main,
+    marginTop: "5%"
   },
   linkText: {
     textDecoration: "underline"
