@@ -60,21 +60,113 @@ const RegisterScreen = props => {
   });
 
   const { match, location, history } = props;
-  const [Name, setName] = useState({value: "", error: null});
-  const [Family, setFamily] = useState({value: "", error: null});
-  const [Email, setEmail] = useState({value: "", error: null});
-  const [Password, setPassword] = useState({value: "", error: null});
-  const [ConfirmPassword, setConfirmPassword] = useState({value: "", error: null});
-  const [Mobile, setMobile] = useState({value: "", error: null});
+  const [Name, setName] = useState({ value: "", error: null });
+  const [Family, setFamily] = useState({ value: "", error: null });
+  const [Email, setEmail] = useState({ value: "", error: null });
+  const [Password, setPassword] = useState({ value: "", error: null });
+  const [ConfirmPassword, setConfirmPassword] = useState({
+    value: "",
+    error: null
+  });
+  const [Mobile, setMobile] = useState({ value: "", error: null });
   const [Loading, setLoading] = useState(false);
   const [UserProfileType, setUserProfileType] = useState("3");
-  const mobileRegex = new RegExp('^[0][9][0-9]{9,9}');
-  const emailRegex = new RegExp('^.+[@].+');
+  const mobileRegex = new RegExp("^[0][9][0-9]{9,9}");
+  const emailRegex = new RegExp("^.+[@].+");
+
+  const validation = useCallback(() => {
+    let res = true;
+    if (Name.value === "") {
+      setName(prevName => ({
+        value: prevName.value,
+        error: "لطفا نام خود را وارد کنید"
+      }));
+      res = false;
+    }
+    if (Family.value === "") {
+      setFamily(prevFamily => ({
+        value: prevFamily.value,
+        error: "لطفا نام خانوادگی خود را وارد کنید"
+      }));
+      res = false;
+    }
+    if (Mobile.value === "") {
+      setMobile(prevMobile => ({
+        value: prevMobile.value,
+        error: "لطفا شماره تلفن خود را وارد کنید"
+      }));
+      res = false;
+    }
+    if (!mobileRegex.test(Mobile.value)) {
+      setMobile(prevMobile => ({
+        value: prevMobile.value,
+        error: "شماره موبایل وارد شده قابل قبول نیست"
+      }));
+      res = false;
+    }
+    if (Email.value === "") {
+      setEmail(prevEmail => ({
+        value: prevEmail.value,
+        error: "لطفا ایمیل خود را وارد کنید"
+      }));
+      res = false;
+    }
+    if (!emailRegex.test(Email.value)) {
+      setEmail(prevEmail => ({
+        value: prevEmail.value,
+        error: "ایمیل وارد شده قابل قبول نیست"
+      }));
+      res = false;
+    }
+    if (Password.value === "") {
+      setPassword(prevPassword => ({
+        value: prevPassword.value,
+        error: "لطفا رمز عبور خود را وارد کنید"
+      }));
+      res = false;
+    }
+    if (ConfirmPassword.value === "") {
+      setConfirmPassword(prevConfirmPassword => ({
+        value: prevConfirmPassword.value,
+        error: "لطفا رمز عبور خود را تایید کنید"
+      }));
+      res = false;
+    }
+    if (Password.value !== ConfirmPassword.value) {
+      setPassword(prevPassword => ({
+        value: prevPassword.value,
+        error: "رمز و تایید رمز شما با هم برابر نیستند"
+      }));
+      setConfirmPassword(prevConfirmPassword => ({
+        value: prevConfirmPassword.value,
+        error: "رمز و تایید رمز شما با هم برابر نیستند"
+      }));
+      res = false;
+    }
+    return res;
+  }, [
+    ConfirmPassword.value,
+    Email.value,
+    Family.value,
+    Mobile.value,
+    Name.value,
+    Password.value,
+    emailRegex,
+    mobileRegex
+  ]);
 
   const onSubmit = useCallback(() => {
-    if (validation()){
+    if (validation()) {
       setLoading(true);
-      Axios.post(url + "UserProfile/save", { Name: Name.value, Family: Family.value, Email: Email.value, Mobile: Mobile.value, Password: Password.value, ConfirmPassword: ConfirmPassword.value, UserProfileType })
+      Axios.post(url + "UserProfile/save", {
+        Name: Name.value,
+        Family: Family.value,
+        Email: Email.value,
+        Mobile: Mobile.value,
+        Password: Password.value,
+        ConfirmPassword: ConfirmPassword.value,
+        UserProfileType
+      })
         .then(res => {
           if (res.status === 200) {
             console.log(res);
@@ -87,49 +179,16 @@ const RegisterScreen = props => {
           setLoading(false);
         });
     }
-  }, [Name, Family, Email, Mobile, Password, ConfirmPassword, UserProfileType]);
-
-  const validation = () => {
-    let res = true
-    if (Name.value === "") {
-      setName(prevName => ({value: prevName.value, error: "لطفا نام خود را وارد کنید"}));
-      res = false;
-    };
-    if (Family.value === "") {
-      setFamily(prevFamily => ({value: prevFamily.value, error: "لطفا نام خانوادگی خود را وارد کنید"}));
-      res = false;
-    };
-    if (Mobile.value === "") {
-      setMobile(prevMobile => ({value: prevMobile.value, error: "لطفا شماره تلفن خود را وارد کنید"}));
-      res = false;
-    };
-    if (!mobileRegex.test(Mobile.value)) {
-      setMobile(prevMobile => ({value: prevMobile.value, error: "شماره موبایل وارد شده قابل قبول نیست"}));
-      res = false;
-    };
-    if (Email.value === "") {
-      setEmail(prevEmail => ({value: prevEmail.value, error: "لطفا ایمیل خود را وارد کنید"}));
-      res = false;
-    };
-    if (!emailRegex.test(Email.value)) {
-      setEmail(prevEmail => ({value: prevEmail.value, error: "ایمیل وارد شده قابل قبول نیست"}));
-      res = false;
-    };
-    if (Password.value === "") {
-      setPassword(prevPassword => ({value: prevPassword.value, error: "لطفا رمز عبور خود را وارد کنید"}));
-      res = false;
-    };
-    if (ConfirmPassword.value === "") {
-      setConfirmPassword(prevConfirmPassword => ({value: prevConfirmPassword.value, error: "لطفا رمز عبور خود را تایید کنید"}));
-      res = false;
-    };
-    if (Password.value !== ConfirmPassword.value){
-      setPassword(prevPassword => ({value: prevPassword.value, error: "رمز و تایید رمز شما با هم برابر نیستند"}));
-      setConfirmPassword(prevConfirmPassword => ({value: prevConfirmPassword.value, error:"رمز و تایید رمز شما با هم برابر نیستند"}));
-      res = false;
-    };
-    return res;
-  };
+  }, [
+    validation,
+    Name.value,
+    Family.value,
+    Email.value,
+    Mobile.value,
+    Password.value,
+    ConfirmPassword.value,
+    UserProfileType
+  ]);
 
   const classes = useStyles();
   return (
@@ -154,8 +213,11 @@ const RegisterScreen = props => {
                   required
                   error={Name.error !== null}
                   onChange={e => {
-                    const {value} = e.target;
-                    setName(prevName => ({value: value, error: prevName.error }));
+                    const { value } = e.target;
+                    setName(prevName => ({
+                      value: value,
+                      error: null
+                    }));
                   }}
                   helperText={Name.error}
                   fullWidth
@@ -169,8 +231,11 @@ const RegisterScreen = props => {
                   required
                   error={Family.error !== null}
                   onChange={e => {
-                    const {value} = e.target;
-                    setFamily(prevFamily => ({value: value, error: prevFamily.error}));
+                    const { value } = e.target;
+                    setFamily(prevFamily => ({
+                      value: value,
+                      error: null
+                    }));
                   }}
                   helperText={Family.error}
                   fullWidth
@@ -185,8 +250,11 @@ const RegisterScreen = props => {
                   required
                   error={Mobile.error !== null}
                   onChange={e => {
-                    const {value} = e.target;
-                    setMobile(prevMobile => ({value: value, error: prevMobile.error}));
+                    const { value } = e.target;
+                    setMobile(prevMobile => ({
+                      value: value,
+                      error: null
+                    }));
                   }}
                   helperText={Mobile.error}
                   fullWidth
@@ -201,8 +269,11 @@ const RegisterScreen = props => {
                   required
                   error={Email.error !== null}
                   onChange={e => {
-                    const {value} = e.target;
-                    setEmail(prevEmail => ({value: value, error: prevEmail.error}))
+                    const { value } = e.target;
+                    setEmail(prevEmail => ({
+                      value: value,
+                      error: null
+                    }));
                   }}
                   helperText={Email.error}
                   fullWidth
@@ -217,8 +288,11 @@ const RegisterScreen = props => {
                   required
                   error={Password.error !== null}
                   onChange={e => {
-                    const {value} = e.target;
-                    setPassword(prevPassword => ({value: value, error: prevPassword.error}));
+                    const { value } = e.target;
+                    setPassword(prevPassword => ({
+                      value: value,
+                      error: null
+                    }));
                   }}
                   helperText={Password.error}
                   fullWidth
@@ -233,8 +307,11 @@ const RegisterScreen = props => {
                   required
                   error={ConfirmPassword.error !== null}
                   onChange={e => {
-                    const {value} = e.target;
-                    setConfirmPassword(prevConfirmPassword => ({value: value, error: prevConfirmPassword.error}));
+                    const { value } = e.target;
+                    setConfirmPassword(prevConfirmPassword => ({
+                      value: value,
+                      error: null
+                    }));
                   }}
                   helperText={ConfirmPassword.error}
                   fullWidth
@@ -251,7 +328,7 @@ const RegisterScreen = props => {
                 name="userProfileType"
                 value={UserProfileType}
                 className={classes.radios}
-                onChange={ e => setUserProfileType(e.target.value) }
+                onChange={e => setUserProfileType(e.target.value)}
               >
                 <FormControlLabel
                   value={"3"}
