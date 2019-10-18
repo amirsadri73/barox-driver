@@ -72,35 +72,63 @@ const RegisterScreen = props => {
   const emailRegex = new RegExp('^.+[@].+');
 
   const onSubmit = useCallback(() => {
-    setLoading(true);
-    validation();
-    Axios.post(url + "UserProfile/save", { Name: Name.value, Family: Family.value, Email: Email.value, Mobile: Mobile.value, Password: Password.value, ConfirmPassword: ConfirmPassword.value, UserProfileType })
-      .then(res => {
-        if (res.status === 200) {
-          console.log(res);
+    if (validation()){
+      setLoading(true);
+      Axios.post(url + "UserProfile/save", { Name: Name.value, Family: Family.value, Email: Email.value, Mobile: Mobile.value, Password: Password.value, ConfirmPassword: ConfirmPassword.value, UserProfileType })
+        .then(res => {
+          if (res.status === 200) {
+            console.log(res);
+            setLoading(false);
+            //history.push("/Login");
+          }
+        })
+        .catch(err => {
+          console.log(err);
           setLoading(false);
-          //history.push("/Login");
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-      });
+        });
+    }
   }, [Name, Family, Email, Mobile, Password, ConfirmPassword, UserProfileType]);
 
   const validation = () => {
-    if (Name.value === "") {setName(prevName => ({value: prevName.value, error: "لطفا نام خود را وارد کنید"}))};
-    if (Family.value === "") {setFamily(prevFamily => ({value: prevFamily.value, error: "لطفا نام خانوادگی خود را وارد کنید"}))};
-    if (Mobile.value === "") {setMobile(prevMobile => ({value: prevMobile.value, error: "لطفا شماره تلفن خود را وارد کنید"}))};
-    if (!mobileRegex.test(Mobile.value)) {setMobile(prevMobile => ({value: prevMobile.value, error: "شماره موبایل وارد شده قابل قبول نیست"}))};
-    if (Email.value === "") {setEmail(prevEmail => ({value: prevEmail.value, error: "لطفا ایمیل خود را وارد کنید"}))};
-    if (!emailRegex.test(Email.value)) {setEmail(prevEmail => ({value: prevEmail.value, error: "ایمیل وارد شده قابل قبول نیست"}))};
-    if (Password.value === "") {setPassword(prevPassword => ({value: prevPassword.value, error: "لطفا رمز عبور خود را وارد کنید"}))};
-    if (ConfirmPassword.value === "") {setConfirmPassword(prevConfirmPassword => ({value: prevConfirmPassword.value, error: "لطفا رمز عبور خود را تایید کنید"}))};
+    let res = true
+    if (Name.value === "") {
+      setName(prevName => ({value: prevName.value, error: "لطفا نام خود را وارد کنید"}));
+      res = false;
+    };
+    if (Family.value === "") {
+      setFamily(prevFamily => ({value: prevFamily.value, error: "لطفا نام خانوادگی خود را وارد کنید"}));
+      res = false;
+    };
+    if (Mobile.value === "") {
+      setMobile(prevMobile => ({value: prevMobile.value, error: "لطفا شماره تلفن خود را وارد کنید"}));
+      res = false;
+    };
+    if (!mobileRegex.test(Mobile.value)) {
+      setMobile(prevMobile => ({value: prevMobile.value, error: "شماره موبایل وارد شده قابل قبول نیست"}));
+      res = false;
+    };
+    if (Email.value === "") {
+      setEmail(prevEmail => ({value: prevEmail.value, error: "لطفا ایمیل خود را وارد کنید"}));
+      res = false;
+    };
+    if (!emailRegex.test(Email.value)) {
+      setEmail(prevEmail => ({value: prevEmail.value, error: "ایمیل وارد شده قابل قبول نیست"}));
+      res = false;
+    };
+    if (Password.value === "") {
+      setPassword(prevPassword => ({value: prevPassword.value, error: "لطفا رمز عبور خود را وارد کنید"}));
+      res = false;
+    };
+    if (ConfirmPassword.value === "") {
+      setConfirmPassword(prevConfirmPassword => ({value: prevConfirmPassword.value, error: "لطفا رمز عبور خود را تایید کنید"}));
+      res = false;
+    };
     if (Password.value !== ConfirmPassword.value){
       setPassword(prevPassword => ({value: prevPassword.value, error: "رمز و تایید رمز شما با هم برابر نیستند"}));
       setConfirmPassword(prevConfirmPassword => ({value: prevConfirmPassword.value, error:"رمز و تایید رمز شما با هم برابر نیستند"}));
+      res = false;
     };
+    return res;
   };
 
   const classes = useStyles();
@@ -122,7 +150,13 @@ const RegisterScreen = props => {
                 <TextField
                   label={"نام"}
                   variant={"filled"}
-                  onChange={e => setName(prevName => ({value: e.target.value, error: prevName.error }))}
+                  value={Name.value}
+                  required
+                  error={Name.error !== null}
+                  onChange={e => {
+                    const {value} = e.target;
+                    setName(prevName => ({value: value, error: prevName.error }));
+                  }}
                   helperText={Name.error}
                   fullWidth
                 />
@@ -131,7 +165,13 @@ const RegisterScreen = props => {
                 <TextField
                   label={"نام خانوادگی"}
                   variant={"filled"}
-                  onChange={e => setFamily(prevFamily => ({value: e.target.value, error: prevFamily.error}))}
+                  value={Family.value}
+                  required
+                  error={Family.error !== null}
+                  onChange={e => {
+                    const {value} = e.target;
+                    setFamily(prevFamily => ({value: value, error: prevFamily.error}));
+                  }}
                   helperText={Family.error}
                   fullWidth
                 />
@@ -141,7 +181,13 @@ const RegisterScreen = props => {
                   label={"موبایل"}
                   type={"mobile"}
                   variant={"filled"}
-                  onChange={e => setMobile(prevMobile => ({value: e.target.value, error: prevMobile.error}))}
+                  value={Mobile.value}
+                  required
+                  error={Mobile.error !== null}
+                  onChange={e => {
+                    const {value} = e.target;
+                    setMobile(prevMobile => ({value: value, error: prevMobile.error}));
+                  }}
                   helperText={Mobile.error}
                   fullWidth
                 />
@@ -151,7 +197,13 @@ const RegisterScreen = props => {
                   label={"ایمیل"}
                   type={"email"}
                   variant={"filled"}
-                  onChange={e => setEmail(prevEmail => ({value: e.target.value, error: prevEmail.error}))}
+                  value={Email.value}
+                  required
+                  error={Email.error !== null}
+                  onChange={e => {
+                    const {value} = e.target;
+                    setEmail(prevEmail => ({value: value, error: prevEmail.error}))
+                  }}
                   helperText={Email.error}
                   fullWidth
                 />
@@ -161,7 +213,13 @@ const RegisterScreen = props => {
                   label={"رمز عبور"}
                   type={"password"}
                   variant={"filled"}
-                  onChange={e => setPassword(prevPassword => ({value: e.target.value, error: prevPassword.error}))}
+                  value={Password.value}
+                  required
+                  error={Password.error !== null}
+                  onChange={e => {
+                    const {value} = e.target;
+                    setPassword(prevPassword => ({value: value, error: prevPassword.error}));
+                  }}
                   helperText={Password.error}
                   fullWidth
                 />
@@ -171,7 +229,13 @@ const RegisterScreen = props => {
                   label={"تایید رمز عبور"}
                   type={"password"}
                   variant={"filled"}
-                  onChange={e => setConfirmPassword(prevConfirmPassword => ({value: e.target.value, error: prevConfirmPassword.error}))}
+                  value={ConfirmPassword.value}
+                  required
+                  error={ConfirmPassword.error !== null}
+                  onChange={e => {
+                    const {value} = e.target;
+                    setConfirmPassword(prevConfirmPassword => ({value: value, error: prevConfirmPassword.error}));
+                  }}
                   helperText={ConfirmPassword.error}
                   fullWidth
                 />
