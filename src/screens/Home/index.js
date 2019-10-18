@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import clsx from 'clsx';
+import React, { useState, useEffect, useRef } from "react";
+import clsx from "clsx";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Typography
-} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import CostumeAppBar from "../../components/appBar";
 import CostumeDrawer from "../../components/drawer";
 
@@ -16,35 +14,36 @@ const useStyles = makeStyles(theme => ({
     //backgroundColor: "red"
   },
   drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end"
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.leavingScreen
     }),
     marginLeft: -drawerWidth,
     paddingLeft: "20%"
   },
   contentShift: {
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: theme.transitions.duration.enteringScreen
     }),
-    marginLeft: 0,
-  },
+    marginLeft: 0
+  }
 }));
 
 const HomeScreen = props => {
   useEffect(() => {
     document.title = props.title;
   });
+
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -54,12 +53,10 @@ const HomeScreen = props => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const userToken = useRef(localStorage.getItem("userToken"));
 
-  
-  const userToken = localStorage.getItem("userToken");
-  console.log(userToken);
   const classes = useStyles();
-  if (userToken === null) return <Redirect to="/login" push />;
+  if (userToken.current === null) return <Redirect to="/login" push />;
   else {
     return (
       <div className={classes.container}>
@@ -68,14 +65,15 @@ const HomeScreen = props => {
         <div className={classes.drawerHeader} />
         <main
           className={clsx(classes.content, {
-          [classes.contentShift]: open,
+            [classes.contentShift]: open
           })}
         >
-          <Typography paragraph >
-            باروکس متشکل است از فعالان با تجربه ی حوزه ی حمل نقل و شرکت چشم انداز 
-            ارتباط با مدیریت  آقایان یاسر موذن زاده و آرش قاجار که می کوشند مشکلات این حوزه را شناسایی و رفع نمایند. 
-            تیم باروکس از با مدیریت خانم زهرا محمدبیگی می کوشد 
-            تا طرح ارائه بار به رانندگان را به بهترین شکل در بستر تلفن همراه ارئه نماید.
+          <Typography paragraph>
+            باروکس متشکل است از فعالان با تجربه ی حوزه ی حمل نقل و شرکت چشم
+            انداز ارتباط با مدیریت آقایان یاسر موذن زاده و آرش قاجار که می کوشند
+            مشکلات این حوزه را شناسایی و رفع نمایند. تیم باروکس از با مدیریت
+            خانم زهرا محمدبیگی می کوشد تا طرح ارائه بار به رانندگان را به بهترین
+            شکل در بستر تلفن همراه ارئه نماید.
           </Typography>
         </main>
       </div>

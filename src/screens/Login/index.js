@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link as RouterLink } from "react-router-dom";
 
 import { url } from "../../constans";
 
@@ -36,19 +36,18 @@ const useStyles = makeStyles(theme => ({
     marginTop: "3%"
   },
   button: {
-    marginTop: "8%",
+    marginTop: "8%"
   },
   progress: {
-    color: theme.palette.common.white,
+    color: theme.palette.common.white
   },
   link: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.secondary.main
   },
   linkText: {
-    textDecoration: "underline",
+    textDecoration: "underline"
   },
-  linDiv: {
-  }
+  linDiv: {}
 }));
 
 const LoginScreen = props => {
@@ -62,10 +61,8 @@ const LoginScreen = props => {
   const [loginType, setLoginType] = useState(0); //0 for mobile and password , 1 for mobile and code
 
   const handleTypeChange = () => {
-    if (loginType === 0)
-      setLoginType(1);
-    else
-      setLoginType(0);
+    if (loginType === 0) setLoginType(1);
+    else setLoginType(0);
   };
 
   const onSubmit = useCallback(() => {
@@ -85,68 +82,89 @@ const LoginScreen = props => {
   }, [mobile, password]);
   const classes = useStyles();
   //if (localStorage.getItem("userToken") === null)
-    return (
-      <div className={classes.container}>
-        <Grid
-          container
-          className={classes.grid}
-           justify="center"
-           alignItems="center"
-         >
-           <Grid item xs={12} sm={6}>
-             <Paper className={classes.paper}>
-               <Typography variant="h5" component="h3" className={classes.title}>
-                 ورود به سیستم
-               </Typography>
-               <TextField
-                 className={classes.input}
-                 label={"موبایل"}
-                 type={"mobile"}
-                 variant={"filled"}
-                 onChange={e => setMobile(e.target.value)}
-                 fullWidth
-               />
-                {
-                  loginType === 0 ? (
-                    <TextField
-                    className={classes.input}
-                    label={"رمز عبور"}
-                    type={"password"}
-                    variant={"filled"}
-                    onChange={e => setPassword(e.target.value)}
-                    fullWidth
-                 />
-                ) : (null)
-                }
-               <Button
-                 variant={"contained"}
-                 color={"primary"}
-                 onClick={onSubmit}
-                 className={classes.button}
-               >
-                 {loading ? (
-                   <CircularProgress className={classes.progress} size={24} />
-                 ) : (
-                    <Typography>ورود</Typography>
-                 )}
-                </Button>
-                <div style={{
-                    display: "flex", 
-                    justifyContent: "center", 
-                    alignItems: "center",}}>
-                  <Link 
-                  component="button" 
-                  //color="secondary"
-                  onClick={handleTypeChange} 
-                  className={classes.link}>
-                    {loginType === 0 ? <Typography className={classes.linkText}>ورود با کد</Typography> : <Typography className={classes.linkText}>ورود با رمز عبور</Typography>}
-                  </Link>
-                </div>
-            </Paper>           
-          </Grid>
+  return (
+    <div className={classes.container}>
+      <Grid
+        container
+        className={classes.grid}
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item xs={12} sm={6}>
+          <Paper className={classes.paper}>
+            <Typography variant="h5" component="h3" className={classes.title}>
+              ورود به سیستم
+            </Typography>
+            <TextField
+              className={classes.input}
+              label={"موبایل"}
+              type={"mobile"}
+              variant={"filled"}
+              onChange={e => setMobile(e.target.value)}
+              fullWidth
+            />
+            {loginType === 0 ? (
+              <TextField
+                className={classes.input}
+                label={"رمز عبور"}
+                type={"password"}
+                variant={"filled"}
+                onChange={e => setPassword(e.target.value)}
+                fullWidth
+              />
+            ) : null}
+            <Button
+              variant={"contained"}
+              color={"primary"}
+              onClick={onSubmit}
+              className={classes.button}
+            >
+              {loading ? (
+                <CircularProgress className={classes.progress} size={24} />
+              ) : (
+                <Typography>ورود</Typography>
+              )}
+            </Button>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column"
+              }}
+            >
+              <Link
+                component="button"
+                //color="secondary"
+                onClick={handleTypeChange}
+                className={classes.link}
+              >
+                {loginType === 0 ? (
+                  <Typography className={classes.linkText}>
+                    ورود با موبایل و کد تایید
+                  </Typography>
+                ) : (
+                  <Typography className={classes.linkText}>
+                    ورود با موبایل و رمز‌عبور
+                  </Typography>
+                )}
+              </Link>
+              <Link
+                component="button"
+                //color="secondary"
+                onClick={handleTypeChange}
+                className={classes.link}
+              >
+                <RouterLink to="/register">
+                  <Typography>عضو نیستید؟ ثبت نام کنید</Typography>
+                </RouterLink>
+              </Link>
+            </div>
+          </Paper>
         </Grid>
-      </div>
-    );
+      </Grid>
+    </div>
+  );
   //else return <Redirect to="/" push />;
 };
 
