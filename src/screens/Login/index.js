@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     height: "100vh",
     padding: "5%"
   },
-  title: { marginBottom: "3%" },
+  title: { marginBottom: "20px" },
   input: {
     marginTop: "3%"
   },
