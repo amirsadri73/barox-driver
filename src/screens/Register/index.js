@@ -27,7 +27,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundAttachment: "fixed",
+    backgroundSize: "100%" 
   },
   paper: {
     padding: "6% 5%",
