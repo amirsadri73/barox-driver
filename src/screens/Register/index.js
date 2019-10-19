@@ -25,11 +25,10 @@ import { validationCondition } from "jest-validate/build/condition";
 const useStyles = makeStyles(theme => ({
   container: {
     backgroundColor: theme.palette.primary.main,
+    minHeight: "100vh",
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
-    backgroundAttachment: "fixed",
-    backgroundSize: "100%" 
+    alignItems: "center"
   },
   paper: {
     padding: "6% 5%",
@@ -39,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   grid: {
     width: "100%",
     height: "100%",
-    padding: "2%"
+    padding: "5%"
   },
   title: { marginBottom: "20px" },
   button: {},
@@ -367,7 +366,9 @@ const RegisterScreen = props => {
               className={classes.link}
             >
               <RouterLink to="/Login">
-                <Typography>قبلا ثبت نام کرده اید؟ برای ورود کلیک کنید</Typography>
+                <Typography>
+                  قبلا ثبت نام کرده اید؟ برای ورود کلیک کنید
+                </Typography>
               </RouterLink>
             </Link>
           </Paper>
