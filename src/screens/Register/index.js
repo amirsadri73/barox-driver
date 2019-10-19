@@ -11,12 +11,13 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  FormLabel
+  FormLabel,
+  Link
 } from "@material-ui/core";
 
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link as RouterLink } from "react-router-dom";
 
 import { url } from "../../constans";
 import { validationCondition } from "jest-validate/build/condition";
@@ -34,8 +35,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column"
   },
   grid: {
-    width: "100vw",
-    height: "100vh",
+    width: "100%",
+    height: "100%",
     padding: "2%"
   },
   title: { marginBottom: "20px" },
@@ -51,6 +52,9 @@ const useStyles = makeStyles(theme => ({
   },
   radioLabel: {
     marginBottom: "3%"
+  },
+  link: {
+    marginTop: "2%"
   }
 }));
 
@@ -354,6 +358,16 @@ const RegisterScreen = props => {
                 <Typography>دریافت کد تایید</Typography>
               )}
             </Button>
+            <Link
+              component="button"
+              //color="secondary"
+              //onClick={handleTypeChange}
+              className={classes.link}
+            >
+              <RouterLink to="/Login">
+                <Typography>قبلا ثبت نام کرده اید؟ برای ورود کلیک کنید</Typography>
+              </RouterLink>
+            </Link>
           </Paper>
         </Grid>
       </Grid>

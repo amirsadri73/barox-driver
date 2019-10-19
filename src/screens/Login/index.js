@@ -18,15 +18,16 @@ import { url } from "../../constans";
 const useStyles = makeStyles(theme => ({
   container: {
     backgroundColor: theme.palette.primary.main,
-    height: "100vh",
-    width: "100vw",
+    height: "100%",
+    width: "100%",
     display: "table-cell",
     verticalAlign: "middle"
   },
   paper: {
     padding: "6% 5%",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    height: "65vh"
   },
   grid: {
     width: "100vw",
@@ -139,7 +140,6 @@ const LoginScreen = props => {
             >
               <Link
                 component="button"
-                //color="secondary"
                 onClick={handleTypeChange}
                 className={classes.link}
               >
@@ -155,8 +155,6 @@ const LoginScreen = props => {
               </Link>
               <Link
                 component="button"
-                //color="secondary"
-                onClick={handleTypeChange}
                 className={classes.link}
               >
                 <RouterLink to="/register">
