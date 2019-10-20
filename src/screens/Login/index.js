@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
-import { Redirect, Link as RouterLink } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import { url } from "../../constans";
 
@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: "5%"
   },
   linkText: {
-    textDecoration: "underline"
+    //textDecoration: "underline"
   },
   linDiv: {}
 }));
@@ -75,6 +75,7 @@ const LoginScreen = props => {
     if (loginType === 0) setLoginType(1);
     else setLoginType(0);
   };
+
 
   const onSubmit = useCallback(() => {
     setLoading(true);
@@ -176,10 +177,11 @@ const LoginScreen = props => {
                     </Typography>
                   )}
                 </Link>
-                <Link component="button" className={classes.link}>
-                  <RouterLink to="/register">
+                <Link 
+                  component="button" 
+                  onClick={()=>history.push("/register")}
+                  className={classes.link}>
                     <Typography>عضو نیستید؟ ثبت نام کنید</Typography>
-                  </RouterLink>
                 </Link>
               </div>
             </div>

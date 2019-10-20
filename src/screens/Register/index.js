@@ -17,7 +17,7 @@ import {
 
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
-import { Redirect, Link as RouterLink } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 
 import { url } from "../../constans";
 import { validationCondition } from "jest-validate/build/condition";
@@ -362,14 +362,12 @@ const RegisterScreen = props => {
             <Link
               component="button"
               //color="secondary"
-              //onClick={handleTypeChange}
+              onClick={() => history.push("/login")}
               className={classes.link}
             >
-              <RouterLink to="/Login">
                 <Typography>
                   قبلا ثبت نام کرده اید؟ برای ورود کلیک کنید
                 </Typography>
-              </RouterLink>
             </Link>
           </Paper>
         </Grid>
