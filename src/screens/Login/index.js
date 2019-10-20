@@ -18,20 +18,26 @@ import { url } from "../../constans";
 const useStyles = makeStyles(theme => ({
   container: {
     backgroundColor: theme.palette.primary.main,
-    height: "100%",
+    minHeight: "100vh",
     width: "100%",
-    display: "table-cell",
-    verticalAlign: "middle"
+    display: "flex",
+    justifyContent: "center"
   },
   paper: {
     padding: "6% 5%",
     display: "flex",
     flexDirection: "column",
-    height: "65vh"
+    height: "480px"
+  },
+  form: {
+    flexDirection: "column",
+    display: "flex",
+    justifyContent: "center",
+    height: "100%"
   },
   grid: {
     width: "100vw",
-    height: "100vh",
+    minHeight: "100vh",
     padding: "5%"
   },
   title: { marginBottom: "20px" },
@@ -39,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: "3%"
   },
   button: {
-    marginTop: "8%",
+    marginTop: "8%"
     //width: "100%"
   },
   progress: {
@@ -101,67 +107,66 @@ const LoginScreen = props => {
             <Typography variant="h5" component="h3" className={classes.title}>
               ورود به سیستم
             </Typography>
-            <TextField
-              className={classes.input}
-              label={"موبایل"}
-              type={"mobile"}
-              variant={"filled"}
-              onChange={e => setMobile(e.target.value)}
-              fullWidth
-            />
-            {loginType === 0 ? (
+            <div className={classes.form}>
               <TextField
                 className={classes.input}
-                label={"رمز عبور"}
-                type={"password"}
+                label={"موبایل"}
+                type={"mobile"}
                 variant={"filled"}
-                onChange={e => setPassword(e.target.value)}
+                onChange={e => setMobile(e.target.value)}
                 fullWidth
               />
-            ) : null}
-            <Button
-              variant={"contained"}
-              color={"primary"}
-              onClick={onSubmit}
-              className={classes.button}
-            >
-              {loading ? (
-                <CircularProgress className={classes.progress} size={24} />
-              ) : (
-                <Typography>ورود</Typography>
-              )}
-            </Button>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column"
-              }}
-            >
-              <Link
-                component="button"
-                onClick={handleTypeChange}
-                className={classes.link}
+              {loginType === 0 ? (
+                <TextField
+                  className={classes.input}
+                  label={"رمز عبور"}
+                  type={"password"}
+                  variant={"filled"}
+                  onChange={e => setPassword(e.target.value)}
+                  fullWidth
+                />
+              ) : null}
+              <Button
+                variant={"contained"}
+                color={"primary"}
+                onClick={onSubmit}
+                className={classes.button}
               >
-                {loginType === 0 ? (
-                  <Typography className={classes.linkText}>
-                    ورود با موبایل و کد تایید
-                  </Typography>
+                {loading ? (
+                  <CircularProgress className={classes.progress} size={24} />
                 ) : (
-                  <Typography className={classes.linkText}>
-                    ورود با موبایل و رمز‌عبور
-                  </Typography>
+                  <Typography>ورود</Typography>
                 )}
-              </Link>
-              <Link
-                component="button"
-                className={classes.link}
+              </Button>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column"
+                }}
               >
-                <RouterLink to="/register">
-                  <Typography>عضو نیستید؟ ثبت نام کنید</Typography>
-                </RouterLink>
-              </Link>
+                <Link
+                  component="button"
+                  onClick={handleTypeChange}
+                  className={classes.link}
+                >
+                  {loginType === 0 ? (
+                    <Typography className={classes.linkText}>
+                      ورود با موبایل و کد تایید
+                    </Typography>
+                  ) : (
+                    <Typography className={classes.linkText}>
+                      ورود با موبایل و رمز‌عبور
+                    </Typography>
+                  )}
+                </Link>
+                <Link component="button" className={classes.link}>
+                  <RouterLink to="/register">
+                    <Typography>عضو نیستید؟ ثبت نام کنید</Typography>
+                  </RouterLink>
+                </Link>
+              </div>
             </div>
           </Paper>
         </Grid>
