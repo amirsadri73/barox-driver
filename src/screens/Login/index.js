@@ -78,18 +78,33 @@ const LoginScreen = props => {
 
   const onSubmit = useCallback(() => {
     setLoading(true);
-     Axios.post(url + "UserProfile/Login", { mobile, password })
-       .then(res => {
-         if (res.status === 200) {
-           localStorage.setItem("userToken", res.data.Token);
-           setLoading(false);
-           history.push("/");
-         }
-       })
-       .catch(err => {
-         console.log(err);
-         setLoading(false);
-       });
+    if(loginType === 0) {
+      Axios.post(url + "UserProfile/Login", { mobile, password })
+        .then(res => {
+          if (res.status === 200) {
+            localStorage.setItem("userToken", res.data.Token);
+            setLoading(false);
+            history.push("/");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
+    else {
+      Axios.post(url + "UserProfile/save", { Mobile: mobile })
+        .then(res => {
+          if (res.status === 200) {
+            setLoading(false);
+            history.push("/verify");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          setLoading(false);
+        })
+    }
   }, [mobile, password]);
   
   const classes = useStyles();

@@ -58,6 +58,9 @@ const useStyles = makeStyles(theme => ({
     useEffect(() => {
         document.title = props.title;
       });
+
+      //return();
+
   };
 
   export default withRouter(ProfileScreen);
