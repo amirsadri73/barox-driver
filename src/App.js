@@ -1,10 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import LoginScreen from "./screens/Login";
-import HomeScreen from "./screens/Home";
-import RegisterScreen from "./screens/Register";
-import VerifyScreen from "./screens/Verify";
-import ProfileScreen from "./screens/Profile";
+import React, { useReducer } from "react";
+
 import { create } from "jss";
 import rtl from "jss-rtl";
 import {
@@ -13,6 +8,9 @@ import {
   createMuiTheme,
   ThemeProvider
 } from "@material-ui/core/styles";
+import Router from "./routers";
+import reducer from "./reducers";
+import stateContext from "./contexts";
 
 const theme = createMuiTheme({
   direction: "rtl",
@@ -30,28 +28,16 @@ const theme = createMuiTheme({
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const App = () => {
+  const [state, dispatch] = useReducer(reducer, {
+    name: "reza"
+  });
+  const StateProvider = stateContext.Provider;
   return (
     <StylesProvider jss={jss}>
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/">
-              <HomeScreen title="باروکس" />
-            </Route>
-            <Route path="/login">
-              <LoginScreen title="ورود به سیستم" />
-            </Route>
-            <Route path="/register">
-              <RegisterScreen title="ثبت نام در سیستم" />
-            </Route>
-            <Route path="/verify">
-              <VerifyScreen title="ورود کد تایید" />
-            </Route>
-            <Route path="./profile">
-              <ProfileScreen title="اطلاعات کاربری" />
-            </Route>
-          </Switch>
-        </BrowserRouter>
+        <StateProvider value={{ state, dispatch }}>
+          <Router />
+        </StateProvider>
       </ThemeProvider>
     </StylesProvider>
   );

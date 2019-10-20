@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -17,10 +17,11 @@ import {
 
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 
 import { url } from "../../constans";
 import { validationCondition } from "jest-validate/build/condition";
+import stateContext from "../../contexts";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -60,6 +61,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RegisterScreen = props => {
+  const { state, dispatch } = useContext(stateContext);
   useEffect(() => {
     document.title = props.title;
   });
@@ -198,6 +200,7 @@ const RegisterScreen = props => {
   const classes = useStyles();
   return (
     <div className={classes.container}>
+      {JSON.stringify(state)}
       <Grid
         container
         className={classes.grid}
@@ -365,9 +368,9 @@ const RegisterScreen = props => {
               onClick={() => history.push("/login")}
               className={classes.link}
             >
-                <Typography>
-                  قبلا ثبت نام کرده اید؟ برای ورود کلیک کنید
-                </Typography>
+              <Typography>
+                قبلا ثبت نام کرده اید؟ برای ورود کلیک کنید
+              </Typography>
             </Link>
           </Paper>
         </Grid>
