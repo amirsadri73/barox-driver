@@ -52,7 +52,7 @@ const VerifyScreen = props => {
     document.title = props.title;
   });
 
-  const [inputNumber, setInputNumber] = useState(["", "", "", ""]);
+  const [inputNumber, setInputNumber] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(0);
   const inputs = [
@@ -60,7 +60,9 @@ const VerifyScreen = props => {
     useRef(null),
     useRef(null),
     useRef(null),
-    useRef(null)
+    useRef(null),
+    useRef(null),
+    useRef(null),
   ];
 
   const handleCodeChange = useCallback(
@@ -70,7 +72,7 @@ const VerifyScreen = props => {
       console.log(inputNumber, index);
       setInputNumber(newCode);
       if (code !== "") {
-        if (index !== 3) {
+        if (index !== 5) {
           inputs[index + 1].current.focus();
         }
         setFocused(index + 1);
@@ -113,7 +115,7 @@ const VerifyScreen = props => {
                 margin: "24px auto"
               }}
             >
-              {[0, 1, 2, 3].map((item, index) => (
+              {[0, 1, 2, 3, 4, 5].map((item, index) => (
                 <TextField
                   type="text"
                   className={classes.input}
