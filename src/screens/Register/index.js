@@ -177,7 +177,7 @@ const RegisterScreen = props => {
           if (res.status === 200) {
             console.log(res);
             setLoading(false);
-            //history.push("/Login");
+            history.push("/Login");
           }
         })
         .catch(err => {
