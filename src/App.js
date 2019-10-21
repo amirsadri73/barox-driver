@@ -26,9 +26,17 @@ const theme = createMuiTheme({
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
+const initialState = {
+  form: {
+    Name: "",
+    Family: "",
+    Email: "",
+    Mobile: ""
+  }
+};
 
 const App = () => {
-  const [state, dispatch] = useReducer(reducer, []);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const StateProvider = stateContext.Provider;
   return (
     <StylesProvider jss={jss}>
