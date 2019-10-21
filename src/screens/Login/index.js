@@ -85,7 +85,7 @@ const LoginScreen = props => {
           if (res.status === 200) {
             localStorage.setItem("userToken", res.data.Token);
             setLoading(false);
-            history.push("/");
+            history.push("/profile");
           }
         })
         .catch(err => {

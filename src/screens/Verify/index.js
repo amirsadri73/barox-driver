@@ -52,6 +52,7 @@ const VerifyScreen = props => {
     document.title = props.title;
   });
 
+  const { match, location, history } = props;
   const [inputNumber, setInputNumber] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState(0);
@@ -89,7 +90,7 @@ const VerifyScreen = props => {
     inputs[0].current.focus();
   }, []);
 
-  const onSubmit = () => {};
+  const onSubmit = () => {history.push("/profile")};
 
   const classes = useStyles();
   return (

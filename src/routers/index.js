@@ -21,7 +21,7 @@ const router = () => {
         <Route path="/verify">
           <VerifyScreen title="ورود کد تایید" />
         </Route>
-        <Route path="./profile">
+        <Route path="/profile">
           <ProfileScreen title="اطلاعات کاربری" />
         </Route>
       </Switch>

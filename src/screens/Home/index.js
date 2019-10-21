@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const HomeScreen = props => {
+
   useEffect(() => {
     document.title = props.title;
   });

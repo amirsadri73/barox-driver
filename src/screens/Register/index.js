@@ -15,6 +15,14 @@ import {
   Link
 } from "@material-ui/core";
 
+import {
+  SetName,
+  SetFamily,
+  SetMobile,
+  SetEmail,
+  SetPassword
+} from "../../actions";
+
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router-dom";
@@ -150,6 +158,7 @@ const RegisterScreen = props => {
       }));
       res = false;
     }
+
     return res;
   }, [
     ConfirmPassword.value,
@@ -165,6 +174,12 @@ const RegisterScreen = props => {
   const onSubmit = useCallback(() => {
     if (validation()) {
       setLoading(true);
+      dispatch(SetName(Name.value));
+      dispatch(SetFamily(Family.value));
+      dispatch(SetMobile(Mobile.value));
+      dispatch(SetEmail(Email.value));
+      dispatch(SetPassword(Password.value));
+
       Axios.post(url + "UserProfile/save", {
         Name: Name.value,
         Family: Family.value,
@@ -178,7 +193,7 @@ const RegisterScreen = props => {
           if (res.status === 200) {
             console.log(res);
             setLoading(false);
-            history.push("/Login");
+            history.push("/login");
           }
         })
         .catch(err => {
@@ -200,7 +215,6 @@ const RegisterScreen = props => {
   const classes = useStyles();
   return (
     <div className={classes.container}>
-      {JSON.stringify(state)}
       <Grid
         container
         className={classes.grid}
