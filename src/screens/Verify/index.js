@@ -92,6 +92,7 @@ const VerifyScreen = props => {
 
   const onSubmit = () => {history.push("/profile")};
 
+
   const classes = useStyles();
   return (
     <div className={classes.container}>
