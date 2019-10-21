@@ -46,6 +46,9 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  button: {
+    marginTop: theme.spacing(2)
+  }
 }));
 
   const ProfileScreen = props => {

@@ -98,7 +98,7 @@ const LoginScreen = props => {
         .then(res => {
           if (res.status === 200) {
             setLoading(false);
-            history.push("/verify");
+            history.push("/profile");
           }
         })
         .catch(err => {
